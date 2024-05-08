@@ -1,24 +1,27 @@
 <script setup>
 import { ref } from 'vue'
 import navBar from './navBar.vue'
-
+import appHeader from './appHeader.vue'
+import appMain from './appMain.vue'
+import appCarousel from './appCarousel.vue'
 const isDrawerOpen = ref(false)
-
-const toggleDrawer = () => {
-  isDrawerOpen.value = !isDrawerOpen.value
-}
 
 // 监听来自navBar的事件，关闭抽屉
 const onCloseDrawer = () => {
   isDrawerOpen.value = false
 }
+
+// 监听来自appHeader的事件，切换抽屉的打开与关闭
+const changeDrawer = () => {
+  isDrawerOpen.value = !isDrawerOpen.value
+}
 </script>
 
 <template>
+  <appHeader @switch-drawer="changeDrawer"></appHeader>
+  <appMain></appMain>
+  <appCarousel></appCarousel>
   <div class="drawer-container">
-    <!-- 触发打开抽屉的按钮 -->
-    <button @click="toggleDrawer" class="toggle-button">Toggle Drawer</button>
-
     <navBar
       @close-drawer="onCloseDrawer"
       class="drawer"
@@ -43,7 +46,7 @@ const onCloseDrawer = () => {
   left: -100%; /* 初始位置在屏幕外 */
   height: 100%;
   background: white;
-  transition: left 0.5s; /* 滑动动画 */
+  transition: left 0.35s; /* 滑动动画 */
   padding: 16px;
 }
 

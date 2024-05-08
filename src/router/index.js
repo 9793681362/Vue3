@@ -22,7 +22,8 @@ import Vue from '@/views/Vue/index.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', name: 'layout', component: Layout },
+    { path: '/', redirect: '/layout' },
+    { path: '/layout', name: 'layout', component: Layout },
     { path: '/english', name: 'english', component: English },
     { path: '/master', name: 'master', component: Master },
     { path: '/javascript', name: 'javascript', component: Javascript },
