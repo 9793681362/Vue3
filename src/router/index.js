@@ -8,6 +8,7 @@ import Master from '@/views/Master/index.vue'
 import Plane from '@/views/Plane/index.vue'
 import Python from '@/views/Python/index.vue'
 import Vue from '@/views/Vue/index.vue'
+import Login from '@/views/Login/index.vue'
 
 // createRouter 创建路由实例，===> new VueRouter()
 // 1. history模式: createWebHistory()   http://xxx/user
@@ -24,6 +25,7 @@ const router = createRouter({
   routes: [
     { path: '/', redirect: '/layout' },
     { path: '/layout', name: 'layout', component: Layout },
+    { path: '/Login', name: 'login', component: Login },
     { path: '/english', name: 'english', component: English },
     { path: '/master', name: 'master', component: Master },
     { path: '/javascript', name: 'javascript', component: Javascript },
