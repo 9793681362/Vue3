@@ -3,15 +3,20 @@ import { ref } from 'vue'
 import navBar from './navBar.vue'
 import appHeader from './appHeader.vue'
 const isDrawerOpen = ref(false)
+const isShadow = ref(false)
 
 // 监听来自navBar的事件，关闭抽屉
 const onCloseDrawer = () => {
   isDrawerOpen.value = false
+  isShadow.value = false
 }
 
 // 监听来自appHeader的事件，切换抽屉的打开与关闭
 const changeDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value
+  setTimeout(() => {
+    isShadow.value = !isShadow.value
+  }, 100) // 延迟为500毫秒
 }
 </script>
 
@@ -23,6 +28,7 @@ const changeDrawer = () => {
       class="drawer"
       :class="{ open: isDrawerOpen }"
     ></navBar>
+    <div class="overlay" v-show="isShadow" @click="changeDrawer"></div>
   </div>
   <router-view></router-view>
 </template>
@@ -55,5 +61,15 @@ const changeDrawer = () => {
 .toggle-button {
   position: absolute;
   right: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色 */
+  z-index: 999;
 }
 </style>

@@ -3,22 +3,36 @@ import { ref } from 'vue'
 const isActive = ref(false)
 import { useRouter } from 'vue-router' // 导入 useRouter 以获取路由实例
 import { defineEmits } from 'vue'
+import { getMessage } from '@/api/layout/layout'
 
 // 获取路由器实例
 const router = useRouter()
 
-const nav_value = [
-  { id: 1, nav: 'English', content: '\uF658', route: '/english' },
-  { id: 2, nav: 'Master', content: '\uF7CD', route: '/master' },
-  { id: 3, nav: 'Javascript', content: '\uF74C', route: '/javascript' },
-  { id: 4, nav: 'Vue', content: '\uF8C4', route: '/vue' },
-  { id: 5, nav: 'Python', content: '\uF75C', route: '/python' },
-  { id: 6, nav: 'Django', content: '\uF7CE', route: '/django' },
-  { id: 7, nav: '', content: '' },
-  { id: 8, nav: 'GitHub', content: '\uF3ED', route: '/github' },
-  { id: 10, nav: 'Plane', content: '\uF1A2', route: 'plane' },
-  { id: 11, nav: '', content: '' }
-]
+// 使用 ref 定义一个响应式变量来存储导航数据
+const nav_value = ref()
+
+// 获取用户数据并更新导航数据
+const getUser = async () => {
+  const res = await getMessage() // 请求获取数据
+  nav_value.value = res.data
+}
+
+// 在组件加载时调用 getUser 函数
+getUser()
+
+// const nav_value = [
+//   { id: 0, nav: 'Home', content: '\uF425', route: '/home' },
+//   { id: 1, nav: 'English', content: '\uF658', route: '/english' },
+//   { id: 2, nav: 'Master', content: '\uF7CD', route: '/master' },
+//   { id: 3, nav: 'Javascript', content: '\uF74C', route: '/javascript' },
+//   { id: 4, nav: 'Vue', content: '\uF8C4', route: '/vue' },
+//   { id: 5, nav: 'Python', content: '\uF75C', route: '/python' },
+//   { id: 6, nav: 'Django', content: '\uF7CE', route: '/django' },
+//   { id: 7, nav: '', content: '' },
+//   { id: 8, nav: 'GitHub', content: '\uF3ED', route: '/github' },
+//   { id: 10, nav: 'Plane', content: '\uF1A2', route: 'plane' },
+//   { id: 11, nav: '', content: '' }
+// ]
 
 const repositories = [
   {
@@ -37,6 +51,7 @@ const handleNavClick = (route) => {
     // 如果该项目有对应的路有，则跳转
     router.push(route)
   }
+  close()
 }
 
 // 鼠标移入时设置 `isActive` 为当前项的 `id`
@@ -58,7 +73,7 @@ const close = () => {
 
 <template>
   <div>
-    <div class="nav-hone">
+    <div class="nav-home">
       <div class="Overlay-header">
         <div class="nav-title">R</div>
         <div class="nav-close">
@@ -140,7 +155,7 @@ const close = () => {
 </template>
 
 <style lang="scss" scoped>
-.nav-hone {
+.nav-home {
   background-color: #fff;
   position: absolute;
   border-radius: 0 12px 12px 0;

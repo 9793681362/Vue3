@@ -1,10 +1,17 @@
 <script setup>
 import { defineEmits } from 'vue'
+import { useRouter } from 'vue-router'
 
 // 定义事件
 const emit = defineEmits(['switch-drawer'])
 const switchDarwer = () => {
   emit('switch-drawer') // 发送关闭抽屉事件
+}
+
+const router = useRouter()
+
+const goLogin = () => {
+  router.push('/login')
 }
 </script>
 
@@ -33,7 +40,7 @@ const switchDarwer = () => {
       <button class="search-input">
         <div><span>Type to search</span></div>
       </button>
-      <a href="" class="log-in">Log in</a>
+      <a href="" class="log-in" @click="goLogin">Log in</a>
       <a href="" class="sign-up">Sign up</a>
     </div>
   </div>
