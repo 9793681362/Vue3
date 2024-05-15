@@ -1,15 +1,31 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import regsiterHome from './regsiterHome.vue'
+import loginHome from './loginHom.vue'
+
+const showRegister = ref(false)
+
+const toggleComponents = () => {
+  showRegister.value = !showRegister.value
+}
+</script>
 
 <template>
   <div class="page-container">
     <h1 class="home">Home</h1>
-
     <div class="login-container">
-      <div class="logo"><h1>R</h1></div>
-      <h1 class="wbc-gin">Welcome back please Sign in</h1>
-      <el-input placeholder="Username" />
-      <el-input placeholder="Password" />
-      <el-button class="login-button">Login</el-button>
+      <loginHome
+        v-if="!showRegister"
+        class="login"
+        :showRegister="showRegister"
+        @toggle="toggleComponents"
+      ></loginHome>
+      <regsiterHome
+        v-if="showRegister"
+        class="register"
+        :showRegister="showRegister"
+        @toggle="toggleComponents"
+      ></regsiterHome>
     </div>
   </div>
 </template>
@@ -31,8 +47,10 @@ template {
   justify-content: center;
 }
 
-.login-container {
+.login,
+.register {
   display: flex; /* 可以使用 Flex 布局 */
+  position: relative;
   flex-direction: column; /* 子元素垂直排列 */
   align-items: center;
   padding: 80px;
@@ -40,23 +58,5 @@ template {
   box-shadow: 0 5px 10px 4px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   gap: 30px;
-
-  .logo {
-    font-size: 50px;
-  }
-  .wbc-gin {
-    font-size: 30px;
-  }
-}
-
-.el-input {
-  width: 350px;
-  height: 40px;
-}
-
-.login-button {
-  margin-top: 30px;
-  width: 350px;
-  height: 30px;
 }
 </style>

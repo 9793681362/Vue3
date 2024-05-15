@@ -20,20 +20,6 @@ const getUser = async () => {
 // 在组件加载时调用 getUser 函数
 getUser()
 
-// const nav_value = [
-//   { id: 0, nav: 'Home', content: '\uF425', route: '/home' },
-//   { id: 1, nav: 'English', content: '\uF658', route: '/english' },
-//   { id: 2, nav: 'Master', content: '\uF7CD', route: '/master' },
-//   { id: 3, nav: 'Javascript', content: '\uF74C', route: '/javascript' },
-//   { id: 4, nav: 'Vue', content: '\uF8C4', route: '/vue' },
-//   { id: 5, nav: 'Python', content: '\uF75C', route: '/python' },
-//   { id: 6, nav: 'Django', content: '\uF7CE', route: '/django' },
-//   { id: 7, nav: '', content: '' },
-//   { id: 8, nav: 'GitHub', content: '\uF3ED', route: '/github' },
-//   { id: 10, nav: 'Plane', content: '\uF1A2', route: 'plane' },
-//   { id: 11, nav: '', content: '' }
-// ]
-
 const repositories = [
   {
     id: 1,

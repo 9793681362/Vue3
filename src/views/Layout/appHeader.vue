@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 // 定义事件
 const emit = defineEmits(['switch-drawer'])
 const switchDarwer = () => {
+  console.log('发送事件', emit)
   emit('switch-drawer') // 发送关闭抽屉事件
 }
 
