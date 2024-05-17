@@ -1,7 +1,8 @@
 <script setup>
-import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { defineEmits, reactive } from 'vue'
+import { defineEmits, reactive, ref } from 'vue'
+import { loginRequest } from '@/api/login/login'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 
@@ -12,24 +13,6 @@ const switch_toggle = () => {
   console.log('emit 函数是否存在：', emit)
   emit('toggle')
 }
-
-const rules = reactive({
-  username: [
-    {
-      require: true,
-      message: '请输入密码',
-      trigger: 'blur'
-    }
-  ],
-  password: [
-    {
-      require: true,
-      message: '请输入密码',
-      trigger: 'blur'
-    }
-  ]
-})
-
 const loginForm = reactive({
   username: '',
   password: '',
@@ -37,23 +20,56 @@ const loginForm = reactive({
   phone_number: ''
 })
 
-const login = () => {
-  const formData = new FormData()
-  formData.append('username', loginForm.username)
-  formData.append('password', loginForm.password)
+const rules = reactive({
+  username: [
+    {
+      required: true,
+      message: '请输入用户名',
+      trigger: 'blur'
+    },
+    {
+      pattern: /^[a-zA-Z0-9_-]{3,16}$/,
+      message: '用户名为3-16位字母、数字、下划线或减号',
+      trigger: 'blur'
+    }
+  ],
+  password: [
+    {
+      required: true,
+      message: '请输入密码',
+      trigger: 'blur'
+    },
+    {
+      pattern: /^(?=.*[a-zA-Z])(?=.*\d).{6,20}$/,
+      message: '密码必须要包含大小写字幕和数字，长度在6-20之间',
+      trigger: 'blur'
+    }
+  ]
+})
 
-  axios
-    .post('http://139.196.213.64:8000/api/login_view', formData)
-    // .post('http://127.0.0.1:8000/api/login_view', formData)
-    .then((response) => {
-      console.log(response.data)
-      if (response.status === 200) {
-        router.push('/home')
+const loginData = ref(null)
+
+const login = () => {
+  const form = loginData.value
+  form.validate(async (valid) => {
+    if (valid) {
+      try {
+        const res = await loginRequest(loginForm.username, loginForm.password)
+        if (res.status === 200) {
+          router.push('/home')
+          ElMessage({
+            message: 'Login successful! Welcome back!',
+            type: 'success'
+          })
+        }
+      } catch {
+        ElMessage({
+          message: 'Login failed. Please check your username and password.',
+          type: 'error'
+        })
       }
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+    }
+  })
 }
 </script>
 
