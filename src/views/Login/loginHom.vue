@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { defineEmits, reactive, ref } from 'vue'
 import { loginRequest } from '@/api/login/login'
 import { ElMessage } from 'element-plus'
+import { login as setLogin } from '@/utils/auth'
 
 const router = useRouter()
 
@@ -56,6 +57,10 @@ const login = () => {
       try {
         const res = await loginRequest(loginForm.username, loginForm.password)
         if (res.status === 200) {
+          setLogin() //设置登录状态
+          router.push({
+            path: router.currentRoute.value.query.redirect || '/home'
+          })
           router.push('/home')
           ElMessage({
             message: 'Login successful! Welcome back!',
@@ -97,6 +102,7 @@ const login = () => {
         <el-input
           v-model="loginForm.password"
           placeholder="password"
+          type="password"
         ></el-input>
       </el-form-item>
     </el-form>

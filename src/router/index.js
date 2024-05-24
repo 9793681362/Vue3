@@ -10,6 +10,8 @@ import Vue from '@/views/Vue/index.vue'
 import Home from '@/views/Home/index.vue'
 import Login from '@/views/Login/index.vue'
 import Layout from '@/views/Layout/index.vue'
+// import { isLeaf } from 'element-plus/es/utils'
+import { isLoggedIn } from '@/utils/auth'
 
 // createRouter 创建路由实例，===> new VueRouter()
 // 1. history模式: createWebHistory()   http://xxx/user
@@ -28,19 +30,80 @@ const router = createRouter({
       component: Layout,
       redirect: '/home',
       children: [
-        { path: '/english', name: 'english', component: English },
-        { path: '/master', name: 'master', component: Master },
-        { path: '/javascript', name: 'javascript', component: Javascript },
-        { path: '/Vue', name: 'vue', component: Vue },
-        { path: '/python', name: 'python', component: Python },
-        { path: '/django', name: 'django', component: Django },
-        { path: '/github', name: 'github', component: GitHub },
-        { path: '/plane', name: 'plane', component: Plane },
-        { path: '/home', name: 'home', component: Home }
+        {
+          path: '/english',
+          name: 'english',
+          component: English,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/master',
+          name: 'master',
+          component: Master,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/javascript',
+          name: 'javascript',
+          component: Javascript,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/Vue',
+          name: 'vue',
+          component: Vue,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/python',
+          name: 'python',
+          component: Python,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/django',
+          name: 'django',
+          component: Django,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/github',
+          name: 'github',
+          component: GitHub,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/plane',
+          name: 'plane',
+          component: Plane,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/home',
+          name: 'home',
+          component: Home,
+          meta: { requiresAuth: true }
+        }
       ]
     },
     { path: '/login', name: 'login', component: Login }
   ]
+})
+
+// 全局导航守卫
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!isLoggedIn()) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
